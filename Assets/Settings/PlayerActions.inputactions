@@ -1,0 +1,107 @@
+{
+    "version": 1,
+    "name": "PlayerActions",
+    "maps": [
+        {
+            "name": "CameraMovement",
+            "id": "fc9b8182-1e7e-4f15-ae90-9c57cf651a32",
+            "actions": [
+                {
+                    "name": "Point",
+                    "type": "Value",
+                    "id": "f61c551e-4b28-4af0-8317-ee0a99a92af4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true,
+                    "priority": 0
+                },
+                {
+                    "name": "Pan",
+                    "type": "Button",
+                    "id": "c9b00058-ffa1-4863-abd6-a0e8cb0ee7f3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "a994b348-8688-489e-800a-61415d399333",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8accdabe-72eb-43e2-b711-f76c985cbb8b",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ee5cb4b-6e04-4ecf-a94f-e65af4884b84",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10aa8951-9071-4353-bf35-415e1d8751e3",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "SpawnMenu",
+            "id": "0d8a46bd-a3e7-4da5-a2f3-59d3131bf428",
+            "actions": [
+                {
+                    "name": "SpawnTower",
+                    "type": "Button",
+                    "id": "fff6836d-9f36-4f15-a9ba-e713e50332fd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5af6b607-aebd-408b-ae1c-1036af6e139b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpawnTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
