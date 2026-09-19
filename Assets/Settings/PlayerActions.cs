@@ -164,9 +164,39 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             ""id"": ""0d8a46bd-a3e7-4da5-a2f3-59d3131bf428"",
             ""actions"": [
                 {
-                    ""name"": ""SpawnTower"",
+                    ""name"": ""SpawnGreenGroundTower"",
                     ""type"": ""Button"",
                     ""id"": ""fff6836d-9f36-4f15-a9ba-e713e50332fd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""SpawnFlyingTower"",
+                    ""type"": ""Button"",
+                    ""id"": ""3612d4dc-f801-431d-aa66-b0c35bad7aa7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""SpawnMushroomTower"",
+                    ""type"": ""Button"",
+                    ""id"": ""2c71c8f4-e01b-4505-92b4-7cce92391eec"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""SpawnZombieTower"",
+                    ""type"": ""Button"",
+                    ""id"": ""3cb092dd-e83a-450a-a6be-cf6efb3e2583"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -178,11 +208,44 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5af6b607-aebd-408b-ae1c-1036af6e139b"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SpawnTower"",
+                    ""action"": ""SpawnGreenGroundTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1c8ebf3-1e1c-486a-80f1-84744bce90b7"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpawnFlyingTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d74b2564-a79d-4082-a7b2-c4bbb419a267"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpawnMushroomTower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a181a9b-9b3e-4275-8536-82823aebc73a"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpawnZombieTower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -198,7 +261,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_CameraMovement_Zoom = m_CameraMovement.FindAction("Zoom", throwIfNotFound: true);
         // SpawnMenu
         m_SpawnMenu = asset.FindActionMap("SpawnMenu", throwIfNotFound: true);
-        m_SpawnMenu_SpawnTower = m_SpawnMenu.FindAction("SpawnTower", throwIfNotFound: true);
+        m_SpawnMenu_SpawnGreenGroundTower = m_SpawnMenu.FindAction("SpawnGreenGroundTower", throwIfNotFound: true);
+        m_SpawnMenu_SpawnFlyingTower = m_SpawnMenu.FindAction("SpawnFlyingTower", throwIfNotFound: true);
+        m_SpawnMenu_SpawnMushroomTower = m_SpawnMenu.FindAction("SpawnMushroomTower", throwIfNotFound: true);
+        m_SpawnMenu_SpawnZombieTower = m_SpawnMenu.FindAction("SpawnZombieTower", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -398,7 +464,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     // SpawnMenu
     private readonly InputActionMap m_SpawnMenu;
     private List<ISpawnMenuActions> m_SpawnMenuActionsCallbackInterfaces = new List<ISpawnMenuActions>();
-    private readonly InputAction m_SpawnMenu_SpawnTower;
+    private readonly InputAction m_SpawnMenu_SpawnGreenGroundTower;
+    private readonly InputAction m_SpawnMenu_SpawnFlyingTower;
+    private readonly InputAction m_SpawnMenu_SpawnMushroomTower;
+    private readonly InputAction m_SpawnMenu_SpawnZombieTower;
     /// <summary>
     /// Provides access to input actions defined in input action map "SpawnMenu".
     /// </summary>
@@ -411,9 +480,21 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// </summary>
         public SpawnMenuActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "SpawnMenu/SpawnTower".
+        /// Provides access to the underlying input action "SpawnMenu/SpawnGreenGroundTower".
         /// </summary>
-        public InputAction @SpawnTower => m_Wrapper.m_SpawnMenu_SpawnTower;
+        public InputAction @SpawnGreenGroundTower => m_Wrapper.m_SpawnMenu_SpawnGreenGroundTower;
+        /// <summary>
+        /// Provides access to the underlying input action "SpawnMenu/SpawnFlyingTower".
+        /// </summary>
+        public InputAction @SpawnFlyingTower => m_Wrapper.m_SpawnMenu_SpawnFlyingTower;
+        /// <summary>
+        /// Provides access to the underlying input action "SpawnMenu/SpawnMushroomTower".
+        /// </summary>
+        public InputAction @SpawnMushroomTower => m_Wrapper.m_SpawnMenu_SpawnMushroomTower;
+        /// <summary>
+        /// Provides access to the underlying input action "SpawnMenu/SpawnZombieTower".
+        /// </summary>
+        public InputAction @SpawnZombieTower => m_Wrapper.m_SpawnMenu_SpawnZombieTower;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -440,9 +521,18 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_SpawnMenuActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_SpawnMenuActionsCallbackInterfaces.Add(instance);
-            @SpawnTower.started += instance.OnSpawnTower;
-            @SpawnTower.performed += instance.OnSpawnTower;
-            @SpawnTower.canceled += instance.OnSpawnTower;
+            @SpawnGreenGroundTower.started += instance.OnSpawnGreenGroundTower;
+            @SpawnGreenGroundTower.performed += instance.OnSpawnGreenGroundTower;
+            @SpawnGreenGroundTower.canceled += instance.OnSpawnGreenGroundTower;
+            @SpawnFlyingTower.started += instance.OnSpawnFlyingTower;
+            @SpawnFlyingTower.performed += instance.OnSpawnFlyingTower;
+            @SpawnFlyingTower.canceled += instance.OnSpawnFlyingTower;
+            @SpawnMushroomTower.started += instance.OnSpawnMushroomTower;
+            @SpawnMushroomTower.performed += instance.OnSpawnMushroomTower;
+            @SpawnMushroomTower.canceled += instance.OnSpawnMushroomTower;
+            @SpawnZombieTower.started += instance.OnSpawnZombieTower;
+            @SpawnZombieTower.performed += instance.OnSpawnZombieTower;
+            @SpawnZombieTower.canceled += instance.OnSpawnZombieTower;
         }
 
         /// <summary>
@@ -454,9 +544,18 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="SpawnMenuActions" />
         private void UnregisterCallbacks(ISpawnMenuActions instance)
         {
-            @SpawnTower.started -= instance.OnSpawnTower;
-            @SpawnTower.performed -= instance.OnSpawnTower;
-            @SpawnTower.canceled -= instance.OnSpawnTower;
+            @SpawnGreenGroundTower.started -= instance.OnSpawnGreenGroundTower;
+            @SpawnGreenGroundTower.performed -= instance.OnSpawnGreenGroundTower;
+            @SpawnGreenGroundTower.canceled -= instance.OnSpawnGreenGroundTower;
+            @SpawnFlyingTower.started -= instance.OnSpawnFlyingTower;
+            @SpawnFlyingTower.performed -= instance.OnSpawnFlyingTower;
+            @SpawnFlyingTower.canceled -= instance.OnSpawnFlyingTower;
+            @SpawnMushroomTower.started -= instance.OnSpawnMushroomTower;
+            @SpawnMushroomTower.performed -= instance.OnSpawnMushroomTower;
+            @SpawnMushroomTower.canceled -= instance.OnSpawnMushroomTower;
+            @SpawnZombieTower.started -= instance.OnSpawnZombieTower;
+            @SpawnZombieTower.performed -= instance.OnSpawnZombieTower;
+            @SpawnZombieTower.canceled -= instance.OnSpawnZombieTower;
         }
 
         /// <summary>
@@ -527,11 +626,32 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     public interface ISpawnMenuActions
     {
         /// <summary>
-        /// Method invoked when associated input action "SpawnTower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "SpawnGreenGroundTower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSpawnTower(InputAction.CallbackContext context);
+        void OnSpawnGreenGroundTower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SpawnFlyingTower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSpawnFlyingTower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SpawnMushroomTower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSpawnMushroomTower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SpawnZombieTower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSpawnZombieTower(InputAction.CallbackContext context);
     }
 }

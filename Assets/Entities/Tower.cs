@@ -1,25 +1,8 @@
-using System;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
     [SerializeField] private float health = 100;
-
-    public event Action<Tower> Died;
-
-    private PlayerManager playerManager;
-
-    private void Start()
-    {
-        playerManager = FindAnyObjectByType<PlayerManager>();
-
-        playerManager.TowerSpawned(this);
-    }
-
-    public void Die()
-    {
-        Died?.Invoke(this);
-    }
 
     public void TakeDamage(float damage)
     {
@@ -27,7 +10,6 @@ public class Tower : MonoBehaviour
 
         if (health <= 0f)
         {
-            Die();
             Destroy(gameObject);
         }
     }

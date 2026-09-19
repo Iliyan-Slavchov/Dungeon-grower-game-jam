@@ -78,9 +78,39 @@
             "id": "0d8a46bd-a3e7-4da5-a2f3-59d3131bf428",
             "actions": [
                 {
-                    "name": "SpawnTower",
+                    "name": "SpawnGreenGroundTower",
                     "type": "Button",
                     "id": "fff6836d-9f36-4f15-a9ba-e713e50332fd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "SpawnFlyingTower",
+                    "type": "Button",
+                    "id": "3612d4dc-f801-431d-aa66-b0c35bad7aa7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "SpawnMushroomTower",
+                    "type": "Button",
+                    "id": "2c71c8f4-e01b-4505-92b4-7cce92391eec",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "SpawnZombieTower",
+                    "type": "Button",
+                    "id": "3cb092dd-e83a-450a-a6be-cf6efb3e2583",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -92,11 +122,44 @@
                 {
                     "name": "",
                     "id": "5af6b607-aebd-408b-ae1c-1036af6e139b",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SpawnTower",
+                    "action": "SpawnGreenGroundTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f1c8ebf3-1e1c-486a-80f1-84744bce90b7",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpawnFlyingTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d74b2564-a79d-4082-a7b2-c4bbb419a267",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpawnMushroomTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a181a9b-9b3e-4275-8536-82823aebc73a",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpawnZombieTower",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

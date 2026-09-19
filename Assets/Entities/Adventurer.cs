@@ -32,11 +32,12 @@ public class Adventurer : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!inCombat)
         {
-            rigidbody2d.AddForceX(100f * Time.deltaTime, ForceMode2D.Force);
+            rigidbody2d.AddForceX(100f, ForceMode2D.Impulse);
+            rigidbody2d.linearVelocity = Vector2.ClampMagnitude(rigidbody2d.linearVelocity, 2f);
         }
     }
 
@@ -47,6 +48,12 @@ public class Adventurer : MonoBehaviour
             inCombat = true;
             Tower tower = other.gameObject.GetComponent<Tower>();
             tower.TakeDamage(10f);
+        }
+        else if (other.CompareTag("TreeKing"))
+        {
+            inCombat = true;
+            TreeKing treeKing = other.gameObject.GetComponent<TreeKing>();
+            treeKing.TakeDamage(10f);
         }
     }
 }

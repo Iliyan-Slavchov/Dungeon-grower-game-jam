@@ -1,32 +1,21 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private WaveManager waveManager;
 
-    private int currentTowers;
-
-    private void OnTowerDied(Tower tower)
+    public void OnTreeKingDied()
     {
-        tower.Died -= OnTowerDied;
-
-        currentTowers--;
-
-        if (currentTowers <= 0)
-        {
-            PlayerDefeated();
-        }
-    }
-
-    private void PlayerDefeated()
-    {
+        waveManager.isPlaying = false;
         uiManager.UpdateText("Player Defeated");
+        uiManager.ToggleTextUpdates(false);
+        uiManager.ToggleRestartButton(true);
     }
 
-    public void TowerSpawned(Tower tower)
+    public void RestartGame()
     {
-        Debug.Log("Tower Spawned");
-        tower.Died += OnTowerDied;
-        currentTowers++;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
