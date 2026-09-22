@@ -22,6 +22,13 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float minY = -5.1f;
     [SerializeField] private float maxY = 5.6f;
 
+    [Header("Aspect Ratio")]
+    [SerializeField, Min(0.01f)] private float targetAspectWidth = 16f;
+    [SerializeField, Min(0.01f)] private float targetAspectHeight = 9f;
+
+    private int lastScreenWidth;
+    private int lastScreenHeight;
+
     private Vector3 grabbedWorldPosition;
     private bool isDragging;
 
@@ -29,6 +36,8 @@ public class CameraMovement : MonoBehaviour
     {
         playerActions = new PlayerActions();
         camera = GetComponent<Camera>();
+
+        SetAspectRatio();
 
         if (!camera.orthographic)
         {
@@ -41,6 +50,9 @@ public class CameraMovement : MonoBehaviour
 
     private void OnValidate()
     {
+        targetAspectWidth = Mathf.Max(0.01f, targetAspectWidth);
+        targetAspectHeight = Mathf.Max(0.01f, targetAspectHeight);
+
         minZoom = Mathf.Max(0.01f, minZoom);
         maxZoom = Mathf.Max(minZoom, maxZoom);
 
@@ -68,6 +80,12 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Screen.width != lastScreenWidth ||
+            Screen.height != lastScreenHeight)
+        {
+            SetAspectRatio();
+        }
+
         Vector2 screenPointerPosition =
             playerActions.CameraMovement.Point.ReadValue<Vector2>();
 
@@ -217,5 +235,39 @@ public class CameraMovement : MonoBehaviour
             minZoom,
             maximumAllowedZoom
         );
+    }
+
+    private void SetAspectRatio()
+    {
+        float targetAspect = targetAspectWidth / targetAspectHeight;
+        float screenAspect = (float)Screen.width / Screen.height;
+
+        camera.aspect = targetAspect;
+
+        float scaleHeight = screenAspect / targetAspect;
+
+        if (scaleHeight < 1f)
+        {
+            camera.rect = new Rect(
+                0f,
+                (1f - scaleHeight) / 2f,
+                1f,
+                scaleHeight
+            );
+        }
+        else
+        {
+            float scaleWidth = 1f / scaleHeight;
+
+            camera.rect = new Rect(
+                (1f - scaleWidth) / 2f,
+                0f,
+                scaleWidth,
+                1f
+            );
+        }
+
+        lastScreenWidth = Screen.width;
+        lastScreenHeight = Screen.height;
     }
 }
