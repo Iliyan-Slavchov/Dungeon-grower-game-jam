@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text currentGold;
     [SerializeField] private TMP_Text insufficientGold;
     [SerializeField] private Button restartButton;
+    [SerializeField] private TMP_Text currentWave;
 
     private bool isEnabled = true;
 
@@ -47,5 +48,10 @@ public class UIManager : MonoBehaviour
     public void ToggleRestartButton(bool Enable)
     {
         restartButton.gameObject.SetActive(Enable);
+    }
+
+    public void UpdateCurrentWave(int newCurrentWave)
+    {
+        currentWave.text = $"Current Wave: {newCurrentWave}";
     }
 }

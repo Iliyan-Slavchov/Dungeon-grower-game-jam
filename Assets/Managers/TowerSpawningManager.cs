@@ -15,6 +15,9 @@ public class TowerSpawningManager : MonoBehaviour
 
     private float timer;
 
+    private Vector2 minPlacementBounds = new Vector2(-7, -4);
+    private Vector2 maxPlacementBounds = new Vector2(7, 4);
+
     private void Awake()
     {
         playerActions = new PlayerActions();
@@ -39,7 +42,7 @@ public class TowerSpawningManager : MonoBehaviour
             uiManager.ToggleInsufficientGold(false);
         }
 
-        if (playerActions.SpawnMenu.SpawnGreenGroundTower.WasPressedThisFrame() && gold >=2)
+        if (playerActions.SpawnMenu.SpawnGreenGroundTower.WasPressedThisFrame() && gold >=2 && IsWithinBounds(Camera.main.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, -Camera.main.transform.position.z))))
         {
             gold -= 2;
             uiManager.UpdateCurrentGold(gold);
@@ -51,7 +54,7 @@ public class TowerSpawningManager : MonoBehaviour
             timer = 5f;
         }
 
-        if (playerActions.SpawnMenu.SpawnFlyingTower.WasPressedThisFrame() && gold >= 4)
+        if (playerActions.SpawnMenu.SpawnFlyingTower.WasPressedThisFrame() && gold >= 4 && IsWithinBounds(Camera.main.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, -Camera.main.transform.position.z))))
         {
             gold -= 4;
             uiManager.UpdateCurrentGold(gold);
@@ -63,7 +66,7 @@ public class TowerSpawningManager : MonoBehaviour
             timer = 5f;
         }
 
-        if (playerActions.SpawnMenu.SpawnMushroomTower.WasPressedThisFrame() && gold >= 3)
+        if (playerActions.SpawnMenu.SpawnMushroomTower.WasPressedThisFrame() && gold >= 3 && IsWithinBounds(Camera.main.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, -Camera.main.transform.position.z))))
         {
             gold -= 3;
             uiManager.UpdateCurrentGold(gold);
@@ -75,7 +78,7 @@ public class TowerSpawningManager : MonoBehaviour
             timer = 5f;
         }
 
-        if (playerActions.SpawnMenu.SpawnZombieTower.WasPressedThisFrame() && gold >= 1)
+        if (playerActions.SpawnMenu.SpawnZombieTower.WasPressedThisFrame() && gold >= 1 && IsWithinBounds(Camera.main.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, -Camera.main.transform.position.z))))
         {
             gold -= 1;
             uiManager.UpdateCurrentGold(gold);
@@ -92,5 +95,13 @@ public class TowerSpawningManager : MonoBehaviour
     {
         gold += newGold;
         uiManager.UpdateCurrentGold(gold);
+    }
+
+    private bool IsWithinBounds(Vector2 position)
+    {
+        return position.x >= minPlacementBounds.x &&
+               position.x <= maxPlacementBounds.x &&
+               position.y >= minPlacementBounds.y &&
+               position.y <= maxPlacementBounds.y;
     }
 }

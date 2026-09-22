@@ -1,13 +1,18 @@
+using System.Collections;
+using System.Drawing;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] private UIManager uiManager;
     [SerializeField] private Adventurer[] adventurersPrefab;
+    [SerializeField] private Adventurer adventurerKingPrefab;
     [SerializeField] private Transform spawnPosition;
     [SerializeField] private RevealRoomManager revealRoomManager;
     [SerializeField] private TowerSpawningManager towerSpawningManager;
     [SerializeField] private TreeKingTeleportManager treeKingTeleportManager;
+    [SerializeField] private TreeKingGrowingManager treeKingGrowingManager;
+    [SerializeField] private TreeKing treeKing;
 
     private int currentAdventurers = 0;
     private int spawnedAdventurers = 0;
@@ -16,6 +21,15 @@ public class WaveManager : MonoBehaviour
     private float timer;
 
     public bool isPlaying = true;
+    private int currentWave = 1;
+    private int kingGold;
+    private bool kingSpawned = false;
+    private Animator treeKingAnimator;
+
+    private void Start()
+    {
+        treeKingAnimator = treeKing.GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -45,6 +59,16 @@ public class WaveManager : MonoBehaviour
                 isSpawned = true;
             }
         }
+
+        if (currentWave % 10 == 0 && !kingSpawned && timer < 0f)
+        {
+            Adventurer adventurerKing = Instantiate(adventurerKingPrefab, spawnPosition.position, Quaternion.identity);
+            adventurerKing.Died += OnAdventurerDied;
+            currentAdventurers++;
+            spawnedAdventurers++;
+            kingGold = 10;
+            kingSpawned = true;
+        }
     }
 
     private void OnAdventurerDied(Adventurer adventurer)
@@ -61,13 +85,84 @@ public class WaveManager : MonoBehaviour
 
     private void WaveDefeated()
     {
+        StartCoroutine(WaveDefeatedRoutine());
+    }
+
+    private IEnumerator WaveDefeatedRoutine()
+    {
         uiManager.UpdateText("Wave Defeated");
         revealRoomManager.RevealNextRoom();
-        treeKingTeleportManager.TeleportTreeKingToNextRoom();
+
+        string animationName = "";
+
+        switch (currentWave)
+        {
+            case 1:
+                animationName = "Stage1Teleport";
+                break;
+            case 2:
+                animationName = "Stage1Teleport";
+                break;
+            case 3:
+                animationName = "Stage2Teleport";
+                break;
+            case 4:
+                animationName = "Stage2Teleport";
+                break;
+            case 5:
+                animationName = "Stage2Teleport";
+                break;
+            case 6:
+                animationName = "Stage3Teleport";
+                break;
+            case 7:
+                animationName = "Stage3Teleport";
+                break;
+            case 8:
+                animationName = "Stage3Teleport";
+                break;
+        }
+
+        timer = 10f;
+        currentWave++;
+
+        if (animationName != "")
+        {
+            treeKingAnimator.Play(animationName, 0, 0f);
+
+            yield return null;
+
+            yield return new WaitUntil(() =>
+                treeKingAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName)
+            );
+
+            yield return new WaitUntil(() =>
+                treeKingAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
+            );
+
+            treeKingAnimator.speed = 0f;
+
+            treeKingTeleportManager.TeleportTreeKingToNextRoom();
+
+            treeKingGrowingManager.GrowTreeKing(currentWave);
+
+            treeKingAnimator.speed = 1f;
+        }
+
         isSpawned = false;
-        towerSpawningManager.GiveGold(maxAdventurers);
+
+        towerSpawningManager.GiveGold(maxAdventurers + kingGold);
+
+        kingGold = 0;
         maxAdventurers++;
         spawnedAdventurers = 0;
+
         timer = 10f;
+
+        uiManager.UpdateCurrentWave(currentWave);
+
+        kingSpawned = false;
+
+        treeKingGrowingManager.GrowTreeKing(currentWave);
     }
 }
