@@ -250,6 +250,35 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Exit"",
+            ""id"": ""a572cd2d-f7cb-4462-accc-b203a681611a"",
+            ""actions"": [
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""96807a7f-35d4-42fa-9698-1fa9d407c95e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ea306426-2043-47e3-ba94-af28b47eb7ac"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -265,12 +294,16 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_SpawnMenu_SpawnFlyingTower = m_SpawnMenu.FindAction("SpawnFlyingTower", throwIfNotFound: true);
         m_SpawnMenu_SpawnMushroomTower = m_SpawnMenu.FindAction("SpawnMushroomTower", throwIfNotFound: true);
         m_SpawnMenu_SpawnZombieTower = m_SpawnMenu.FindAction("SpawnZombieTower", throwIfNotFound: true);
+        // Exit
+        m_Exit = asset.FindActionMap("Exit", throwIfNotFound: true);
+        m_Exit_Exit = m_Exit.FindAction("Exit", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
     {
         UnityEngine.Debug.Assert(!m_CameraMovement.enabled, "This will cause a leak and performance issues, PlayerActions.CameraMovement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_SpawnMenu.enabled, "This will cause a leak and performance issues, PlayerActions.SpawnMenu.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Exit.enabled, "This will cause a leak and performance issues, PlayerActions.Exit.Disable() has not been called.");
     }
 
     /// <summary>
@@ -589,6 +622,102 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="SpawnMenuActions" /> instance referencing this action map.
     /// </summary>
     public SpawnMenuActions @SpawnMenu => new SpawnMenuActions(this);
+
+    // Exit
+    private readonly InputActionMap m_Exit;
+    private List<IExitActions> m_ExitActionsCallbackInterfaces = new List<IExitActions>();
+    private readonly InputAction m_Exit_Exit;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Exit".
+    /// </summary>
+    public struct ExitActions
+    {
+        private @PlayerActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public ExitActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Exit/Exit".
+        /// </summary>
+        public InputAction @Exit => m_Wrapper.m_Exit_Exit;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Exit; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="ExitActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(ExitActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="ExitActions" />
+        public void AddCallbacks(IExitActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ExitActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ExitActionsCallbackInterfaces.Add(instance);
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="ExitActions" />
+        private void UnregisterCallbacks(IExitActions instance)
+        {
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ExitActions.UnregisterCallbacks(IExitActions)" />.
+        /// </summary>
+        /// <seealso cref="ExitActions.UnregisterCallbacks(IExitActions)" />
+        public void RemoveCallbacks(IExitActions instance)
+        {
+            if (m_Wrapper.m_ExitActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="ExitActions.AddCallbacks(IExitActions)" />
+        /// <seealso cref="ExitActions.RemoveCallbacks(IExitActions)" />
+        /// <seealso cref="ExitActions.UnregisterCallbacks(IExitActions)" />
+        public void SetCallbacks(IExitActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ExitActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ExitActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="ExitActions" /> instance referencing this action map.
+    /// </summary>
+    public ExitActions @Exit => new ExitActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CameraMovement" which allows adding and removing callbacks.
     /// </summary>
@@ -653,5 +782,20 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSpawnZombieTower(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Exit" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="ExitActions.AddCallbacks(IExitActions)" />
+    /// <seealso cref="ExitActions.RemoveCallbacks(IExitActions)" />
+    public interface IExitActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Exit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnExit(InputAction.CallbackContext context);
     }
 }

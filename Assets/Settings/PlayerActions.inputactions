@@ -164,6 +164,35 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Exit",
+            "id": "a572cd2d-f7cb-4462-accc-b203a681611a",
+            "actions": [
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "96807a7f-35d4-42fa-9698-1fa9d407c95e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ea306426-2043-47e3-ba94-af28b47eb7ac",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

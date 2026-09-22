@@ -26,11 +26,13 @@ public class TowerSpawningManager : MonoBehaviour
     private void OnEnable()
     {
         playerActions.SpawnMenu.Enable();
+        playerActions.Exit.Enable();
     }
 
     private void OnDisable()
     {
         playerActions.SpawnMenu.Disable();
+        playerActions.Exit.Enable();
     }
 
     private void Update()
@@ -88,6 +90,11 @@ public class TowerSpawningManager : MonoBehaviour
         {
             uiManager.ToggleInsufficientGold(true);
             timer = 5f;
+        }
+
+        if (playerActions.Exit.Exit.WasPressedThisFrame())
+        {
+            Application.Quit();
         }
     }
 
