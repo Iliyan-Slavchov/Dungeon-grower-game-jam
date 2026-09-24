@@ -193,6 +193,85 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "ContinueDialogue",
+            "id": "c7cd9be7-72b8-4b61-b8fe-ca2b37ac7597",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "type": "Button",
+                    "id": "1d22f95c-4fef-450b-9059-0c35fa9da58a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0ad6eff0-7883-48af-a6a3-a9767154f491",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Continue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ShowCredits",
+            "id": "1b13466e-a48e-459e-8350-ce829bd4cc30",
+            "actions": [
+                {
+                    "name": "ShowCredits",
+                    "type": "Button",
+                    "id": "3baa7dd2-819e-41fe-948b-bbd06cfbebb6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "ShowControls",
+                    "type": "Button",
+                    "id": "0e888391-5836-46d9-852a-2daec89574b2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f9bb062e-cc54-4d1c-8d87-7e2711861a1d",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowCredits",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2306153-0e57-4c5e-a05a-f182b9a74c1d",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

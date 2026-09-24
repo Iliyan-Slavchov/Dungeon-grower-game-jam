@@ -3,6 +3,14 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     [SerializeField] private float health = 100;
+    [SerializeField] private float damage = 50f;
+    [SerializeField] private AudioClip deathAudioClip;
+    private AudioSource audioSouce;
+
+    private void Awake()
+    {
+        audioSouce = GetComponent<AudioSource>();
+    }
 
     public void TakeDamage(float damage)
     {
@@ -10,7 +18,9 @@ public class Tower : MonoBehaviour
 
         if (health <= 0f)
         {
-            Destroy(gameObject);
+            audioSouce.PlayOneShot(deathAudioClip);
+
+            Destroy(gameObject, 0.3f);
         }
     }
 
@@ -19,7 +29,7 @@ public class Tower : MonoBehaviour
         if (other.CompareTag("Adventurer"))
         {
             Adventurer adventurer = other.gameObject.GetComponent<Adventurer>();
-            adventurer.TakeDamage(50f);
+            adventurer.TakeDamage(damage);
         }
     }
 }

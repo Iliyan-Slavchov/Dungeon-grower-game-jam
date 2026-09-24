@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Drawing;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -13,6 +12,11 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private TreeKingTeleportManager treeKingTeleportManager;
     [SerializeField] private TreeKingGrowingManager treeKingGrowingManager;
     [SerializeField] private TreeKing treeKing;
+    [SerializeField] private AudioSource musicAudioSource;
+    [SerializeField] private AudioSource soundEffectAudioSource;
+    [SerializeField] private AudioClip waveMusic;
+    [SerializeField] private AudioClip bossMusic;
+    [SerializeField] private AudioClip waveClear;
 
     private int currentAdventurers = 0;
     private int spawnedAdventurers = 0;
@@ -21,10 +25,11 @@ public class WaveManager : MonoBehaviour
     private float timer;
 
     public bool isPlaying = true;
-    private int currentWave = 1;
+    public int currentWave = 9;
     private int kingGold;
     private bool kingSpawned = false;
     private Animator treeKingAnimator;
+    private bool bossMusicStarted = false;
 
     private void Start()
     {
@@ -33,6 +38,15 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
+        if (currentWave % 10 == 0 && !bossMusicStarted)
+        {
+            bossMusicStarted = true;
+            musicAudioSource.Stop();
+            musicAudioSource.clip = bossMusic;
+            musicAudioSource.loop = true;
+            musicAudioSource.Play();
+        }
+
         SpawnAdventurer();
     }
 
@@ -66,6 +80,7 @@ public class WaveManager : MonoBehaviour
             adventurerKing.Died += OnAdventurerDied;
             currentAdventurers++;
             spawnedAdventurers++;
+            maxAdventurers++;
             kingGold = 10;
             kingSpawned = true;
         }
@@ -90,6 +105,8 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator WaveDefeatedRoutine()
     {
+        soundEffectAudioSource.PlayOneShot(waveClear);
+
         uiManager.UpdateText("Wave Defeated");
         revealRoomManager.RevealNextRoom();
 
@@ -164,5 +181,12 @@ public class WaveManager : MonoBehaviour
         kingSpawned = false;
 
         treeKingGrowingManager.GrowTreeKing(currentWave);
+
+        bossMusicStarted = false;
+
+        musicAudioSource.Stop();
+        musicAudioSource.clip = waveMusic;
+        musicAudioSource.loop = true;
+        musicAudioSource.Play();
     }
 }

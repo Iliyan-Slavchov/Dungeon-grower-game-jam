@@ -6,14 +6,20 @@ public class Adventurer : MonoBehaviour
     public event Action<Adventurer> Died;
 
     [SerializeField] private float health = 100;
+    [SerializeField] private float damage = 20f;
+
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip[] hitSounds;
 
     Rigidbody2D rigidbody2d;
 
-    private bool inCombat = false;
+    private int combatContacts = 0;
 
     private void Awake()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Die()
@@ -34,7 +40,7 @@ public class Adventurer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!inCombat)
+        if (combatContacts <= 0)
         {
             rigidbody2d.AddForceX(100f, ForceMode2D.Impulse);
             rigidbody2d.linearVelocity = Vector2.ClampMagnitude(rigidbody2d.linearVelocity, 2f);
@@ -45,15 +51,31 @@ public class Adventurer : MonoBehaviour
     {
         if (other.CompareTag("Tower"))
         {
-            inCombat = true;
             Tower tower = other.gameObject.GetComponent<Tower>();
-            tower.TakeDamage(10f);
+            tower.TakeDamage(damage);
         }
         else if (other.CompareTag("TreeKing"))
         {
-            inCombat = true;
             TreeKing treeKing = other.gameObject.GetComponent<TreeKing>();
-            treeKing.TakeDamage(10f);
+            treeKing.TakeDamage(damage);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Tower") || other.CompareTag("TreeKing"))
+        {
+            int randomIndex = UnityEngine.Random.Range(0, hitSounds.Length);
+
+            audioSource.PlayOneShot(hitSounds[randomIndex]);
+
+            combatContacts++;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Tower") || other.CompareTag("TreeKing"))
+            combatContacts--;
     }
 }

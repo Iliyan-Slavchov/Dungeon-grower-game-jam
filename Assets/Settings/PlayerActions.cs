@@ -279,6 +279,85 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""ContinueDialogue"",
+            ""id"": ""c7cd9be7-72b8-4b61-b8fe-ca2b37ac7597"",
+            ""actions"": [
+                {
+                    ""name"": ""Continue"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d22f95c-4fef-450b-9059-0c35fa9da58a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0ad6eff0-7883-48af-a6a3-a9767154f491"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Continue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""ShowCredits"",
+            ""id"": ""1b13466e-a48e-459e-8350-ce829bd4cc30"",
+            ""actions"": [
+                {
+                    ""name"": ""ShowCredits"",
+                    ""type"": ""Button"",
+                    ""id"": ""3baa7dd2-819e-41fe-948b-bbd06cfbebb6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""ShowControls"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e888391-5836-46d9-852a-2daec89574b2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f9bb062e-cc54-4d1c-8d87-7e2711861a1d"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowCredits"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2306153-0e57-4c5e-a05a-f182b9a74c1d"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowControls"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -297,6 +376,13 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         // Exit
         m_Exit = asset.FindActionMap("Exit", throwIfNotFound: true);
         m_Exit_Exit = m_Exit.FindAction("Exit", throwIfNotFound: true);
+        // ContinueDialogue
+        m_ContinueDialogue = asset.FindActionMap("ContinueDialogue", throwIfNotFound: true);
+        m_ContinueDialogue_Continue = m_ContinueDialogue.FindAction("Continue", throwIfNotFound: true);
+        // ShowCredits
+        m_ShowCredits = asset.FindActionMap("ShowCredits", throwIfNotFound: true);
+        m_ShowCredits_ShowCredits = m_ShowCredits.FindAction("ShowCredits", throwIfNotFound: true);
+        m_ShowCredits_ShowControls = m_ShowCredits.FindAction("ShowControls", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -304,6 +390,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_CameraMovement.enabled, "This will cause a leak and performance issues, PlayerActions.CameraMovement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_SpawnMenu.enabled, "This will cause a leak and performance issues, PlayerActions.SpawnMenu.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Exit.enabled, "This will cause a leak and performance issues, PlayerActions.Exit.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_ContinueDialogue.enabled, "This will cause a leak and performance issues, PlayerActions.ContinueDialogue.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_ShowCredits.enabled, "This will cause a leak and performance issues, PlayerActions.ShowCredits.Disable() has not been called.");
     }
 
     /// <summary>
@@ -718,6 +806,209 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="ExitActions" /> instance referencing this action map.
     /// </summary>
     public ExitActions @Exit => new ExitActions(this);
+
+    // ContinueDialogue
+    private readonly InputActionMap m_ContinueDialogue;
+    private List<IContinueDialogueActions> m_ContinueDialogueActionsCallbackInterfaces = new List<IContinueDialogueActions>();
+    private readonly InputAction m_ContinueDialogue_Continue;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "ContinueDialogue".
+    /// </summary>
+    public struct ContinueDialogueActions
+    {
+        private @PlayerActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public ContinueDialogueActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "ContinueDialogue/Continue".
+        /// </summary>
+        public InputAction @Continue => m_Wrapper.m_ContinueDialogue_Continue;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_ContinueDialogue; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="ContinueDialogueActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(ContinueDialogueActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="ContinueDialogueActions" />
+        public void AddCallbacks(IContinueDialogueActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ContinueDialogueActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ContinueDialogueActionsCallbackInterfaces.Add(instance);
+            @Continue.started += instance.OnContinue;
+            @Continue.performed += instance.OnContinue;
+            @Continue.canceled += instance.OnContinue;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="ContinueDialogueActions" />
+        private void UnregisterCallbacks(IContinueDialogueActions instance)
+        {
+            @Continue.started -= instance.OnContinue;
+            @Continue.performed -= instance.OnContinue;
+            @Continue.canceled -= instance.OnContinue;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ContinueDialogueActions.UnregisterCallbacks(IContinueDialogueActions)" />.
+        /// </summary>
+        /// <seealso cref="ContinueDialogueActions.UnregisterCallbacks(IContinueDialogueActions)" />
+        public void RemoveCallbacks(IContinueDialogueActions instance)
+        {
+            if (m_Wrapper.m_ContinueDialogueActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="ContinueDialogueActions.AddCallbacks(IContinueDialogueActions)" />
+        /// <seealso cref="ContinueDialogueActions.RemoveCallbacks(IContinueDialogueActions)" />
+        /// <seealso cref="ContinueDialogueActions.UnregisterCallbacks(IContinueDialogueActions)" />
+        public void SetCallbacks(IContinueDialogueActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ContinueDialogueActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ContinueDialogueActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="ContinueDialogueActions" /> instance referencing this action map.
+    /// </summary>
+    public ContinueDialogueActions @ContinueDialogue => new ContinueDialogueActions(this);
+
+    // ShowCredits
+    private readonly InputActionMap m_ShowCredits;
+    private List<IShowCreditsActions> m_ShowCreditsActionsCallbackInterfaces = new List<IShowCreditsActions>();
+    private readonly InputAction m_ShowCredits_ShowCredits;
+    private readonly InputAction m_ShowCredits_ShowControls;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "ShowCredits".
+    /// </summary>
+    public struct ShowCreditsActions
+    {
+        private @PlayerActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public ShowCreditsActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "ShowCredits/ShowCredits".
+        /// </summary>
+        public InputAction @ShowCredits => m_Wrapper.m_ShowCredits_ShowCredits;
+        /// <summary>
+        /// Provides access to the underlying input action "ShowCredits/ShowControls".
+        /// </summary>
+        public InputAction @ShowControls => m_Wrapper.m_ShowCredits_ShowControls;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_ShowCredits; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="ShowCreditsActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(ShowCreditsActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="ShowCreditsActions" />
+        public void AddCallbacks(IShowCreditsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ShowCreditsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ShowCreditsActionsCallbackInterfaces.Add(instance);
+            @ShowCredits.started += instance.OnShowCredits;
+            @ShowCredits.performed += instance.OnShowCredits;
+            @ShowCredits.canceled += instance.OnShowCredits;
+            @ShowControls.started += instance.OnShowControls;
+            @ShowControls.performed += instance.OnShowControls;
+            @ShowControls.canceled += instance.OnShowControls;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="ShowCreditsActions" />
+        private void UnregisterCallbacks(IShowCreditsActions instance)
+        {
+            @ShowCredits.started -= instance.OnShowCredits;
+            @ShowCredits.performed -= instance.OnShowCredits;
+            @ShowCredits.canceled -= instance.OnShowCredits;
+            @ShowControls.started -= instance.OnShowControls;
+            @ShowControls.performed -= instance.OnShowControls;
+            @ShowControls.canceled -= instance.OnShowControls;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ShowCreditsActions.UnregisterCallbacks(IShowCreditsActions)" />.
+        /// </summary>
+        /// <seealso cref="ShowCreditsActions.UnregisterCallbacks(IShowCreditsActions)" />
+        public void RemoveCallbacks(IShowCreditsActions instance)
+        {
+            if (m_Wrapper.m_ShowCreditsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="ShowCreditsActions.AddCallbacks(IShowCreditsActions)" />
+        /// <seealso cref="ShowCreditsActions.RemoveCallbacks(IShowCreditsActions)" />
+        /// <seealso cref="ShowCreditsActions.UnregisterCallbacks(IShowCreditsActions)" />
+        public void SetCallbacks(IShowCreditsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ShowCreditsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ShowCreditsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="ShowCreditsActions" /> instance referencing this action map.
+    /// </summary>
+    public ShowCreditsActions @ShowCredits => new ShowCreditsActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CameraMovement" which allows adding and removing callbacks.
     /// </summary>
@@ -797,5 +1088,42 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnExit(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "ContinueDialogue" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="ContinueDialogueActions.AddCallbacks(IContinueDialogueActions)" />
+    /// <seealso cref="ContinueDialogueActions.RemoveCallbacks(IContinueDialogueActions)" />
+    public interface IContinueDialogueActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Continue" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnContinue(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "ShowCredits" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="ShowCreditsActions.AddCallbacks(IShowCreditsActions)" />
+    /// <seealso cref="ShowCreditsActions.RemoveCallbacks(IShowCreditsActions)" />
+    public interface IShowCreditsActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "ShowCredits" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShowCredits(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ShowControls" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShowControls(InputAction.CallbackContext context);
     }
 }
